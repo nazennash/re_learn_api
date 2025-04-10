@@ -7,12 +7,14 @@ class ProductSerializer(ModelSerializer):
     discount = serializers.SerializerMethodField(read_only=True)
 
     def get_discount(self, obj):
-        # try:
-        #     return obj.get_discount()
-        # except Exception as e:
-        #     return None
-        if not hasattr(obj, 'id'):
+        try:
+            return obj.get_discount()
+        except Exception as e:
             return None
+        # if not isinstance(obj, Product):
+        #     return None
+        # if not hasattr(obj, 'id'):
+        #     return None
 
 
     class Meta:
