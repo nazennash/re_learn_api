@@ -97,3 +97,11 @@ class ProductViewset(ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     lookup_field = 'pk'
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        user = self.request.user
+        # user = self.request.user
+        # print(user)
+        # return Product.objects.filter(user=user)
+        return qs.filter(user=user)
