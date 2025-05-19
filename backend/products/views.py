@@ -87,6 +87,7 @@
 from rest_framework.viewsets import ModelViewSet
 from .models import Product
 from .serializers import ProductSerializer
+from rest_framework import generics
 
 class ProductViewset(ModelViewSet):
     """
@@ -105,3 +106,22 @@ class ProductViewset(ModelViewSet):
         # print(user)
         # return Product.objects.filter(user=user)
         return qs.filter(user=user)
+
+
+
+class SearchListView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+        q = self.request.GET.get('q', None)
+        # q = self.request.query_params.get('q', None)
+        print(q)
+        results = Product.objects.none()
+        if q is not None:
+            user = None
+            if self.request.user.is_authenticated:
+                user = self.request.user
+            results = qs.search(q, user=user)
+        return results

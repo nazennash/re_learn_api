@@ -14,4 +14,5 @@ urlpatterns = [
     # path('list/', ProductListAPIView.as_view(), name='list'),
     # path('auth/', ObtainAuthToken.as_view(), name='token' ),
     path('', include(router.urls)),
+    path('search', views.SearchListView.as_view(), name='search'),
 ]
